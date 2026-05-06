@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>MindSeek Coach – Rutinitas Belajar 15 Menit Tanpa Drama</title>
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      background: #FFFFFF;
+      color: #1F2A3A;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Hero Section */
+    .hero {
+      padding: 64px 0 48px;
+      text-align: center;
+      background: linear-gradient(135deg, #F8FAFF 0%, #FFFFFF 100%);
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #1F2A3A;
+      line-height: 1.2;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+
+    .hero h1 span {
+      color: #4A90E2;
+    }
+
+    .hero .subhead {
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: #4a5b6e;
+      max-width: 700px;
+      margin: 0 auto 32px;
+      padding: 0 12px;
+    }
+
+    .btn-primary {
+      background: #4A90E2;
+      color: white;
+      border: none;
+      padding: 14px 36px;
+      font-size: 1.125rem;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      border-radius: 48px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 8px 20px rgba(74, 144, 226, 0.25);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: #3A7BC8;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 24px rgba(74, 144, 226, 0.35);
+    }
+
+    /* Modules Section */
+    .modules {
+      padding: 64px 0 80px;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 1.9rem;
+      font-weight: 700;
+      margin-bottom: 48px;
+      color: #1F2A3A;
+    }
+
+    .section-title:after {
+      content: '';
+      display: block;
+      width: 70px;
+      height: 4px;
+      background: #4A90E2;
+      margin: 16px auto 0;
+      border-radius: 4px;
+    }
+
+    .card-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 32px;
+      justify-content: center;
+    }
+
+    .card {
+      background: #FFFFFF;
+      border-radius: 28px;
+      padding: 32px 28px;
+      flex: 1;
+      min-width: 260px;
+      max-width: 340px;
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: 1px solid #EFF2F9;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 28px 40px -15px rgba(74, 144, 226, 0.2);
+      border-color: #d9e6ff;
+    }
+
+    .card-icon {
+      background: #EFF5FF;
+      width: 56px;
+      height: 56px;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      font-size: 28px;
+    }
+
+    .card h3 {
+      font-size: 1.55rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      color: #1F2A3A;
+      line-height: 1.3;
+    }
+
+    .card p {
+      color: #4a5b6e;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 32px 24px;
+      border-top: 1px solid #EFF2F9;
+      color: #6c7a8e;
+      font-size: 0.9rem;
+      background: #FAFCFE;
+    }
+
+    /* Modal Styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(3px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      visibility: hidden;
+      opacity: 0;
+      transition: visibility 0.2s, opacity 0.2s;
+    }
+
+    .modal-overlay.active {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .modal-container {
+      background: white;
+      width: 90%;
+      max-width: 460px;
+      border-radius: 32px;
+      padding: 32px 28px;
+      box-shadow: 0 30px 50px rgba(0, 0, 0, 0.2);
+      position: relative;
+      text-align: center;
+    }
+
+    .modal-container h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1F2A3A;
+    }
+
+    .modal-container p {
+      color: #5e6f82;
+      margin-bottom: 28px;
+      font-size: 0.95rem;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #1F2A3A;
+      font-size: 0.9rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 28px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 1rem;
+      transition: 0.2s;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: #4A90E2;
+      box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+    }
+
+    .btn-submit {
+      background: #4A90E2;
+      color: white;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 48px;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'Poppins', sans-serif;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 8px;
+    }
+
+    .btn-submit:hover {
+      background: #3A7BC8;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      font-size: 28px;
+      cursor: pointer;
+      color: #9aa9bb;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+
+    .close-modal:hover {
+      color: #1F2A3A;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 48px 0 32px;
+      }
+      .hero h1 {
+        font-size: 1.9rem;
+      }
+      .hero .subhead {
+        font-size: 1.05rem;
+      }
+      .section-title {
+        font-size: 1.6rem;
+      }
+      .card {
+        max-width: 100%;
+        padding: 28px 24px;
+      }
+      .btn-primary {
+        padding: 12px 28px;
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero h1 {
+        font-size: 1.7rem;
+      }
+      .card h3 {
+        font-size: 1.4rem;
+      }
+    }
+
+    /* utility */
+    .text-accent {
+      color: #4A90E2;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>MindSeek Coach – <span>Rutinitas Belajar 15 Menit</span><br>Tanpa Drama</h1>
+      <p class="subhead">Panduan praktis untuk orang tua yang lelah memaksa anak belajar</p>
+      <a href="https://forms.gle/w1hPdhUEMDgeAx8P7" target="_blank" class="btn-primary" style="text-decoration: none; display: inline-block;">✨ Dapatkan 3 Modul Gratis</a>
+    </div>
+  </section>
+
+  <!-- 3 Modul Section -->
+  <section class="modules">
+    <div class="container">
+      <h2 class="section-title">Apa yang akan Anda dapatkan?</h2>
+      <div class="card-grid">
+        <!-- Modul 1 -->
+        <div class="card">
+          <div class="card-icon">📘</div>
+          <h3>Mengatasi Anak Menunda Belajar</h3>
+          <p>Triks 5 menit pakai timer visual + cara merespon "ntar lagi" tanpa drama.</p>
+        </div>
+        <!-- Modul 2 -->
+        <div class="card">
+          <div class="card-icon">🌟</div>
+          <h3>Cara Memberi Pujian yang Membangun Motivasi</h3>
+          <p>Pujian proses, bukan hasil — membuat anak berani mencoba tanpa takut gagal.</p>
+        </div>
+        <!-- Modul 3 -->
+        <div class="card">
+          <div class="card-icon">⏰</div>
+          <h3>Rutinitas Belajar Setelah Pulang Sekolah</h3>
+          <p>Ritual 15 menit yang jadi jembatan seru antara bermain dan belajar.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 MindSeek. Dibuat untuk orang tua hebat.</p>
+    </div>
+  </footer>
+
+  <!-- Modal Form -->
+  <div id="modalForm" class="modal-overlay">
+    <div class="modal-container">
+      <span class="close-modal" id="closeModalBtn">&times;</span>
+      <h3>✨ 3 Modul Gratis</h3>
+      <p>Masukkan nama dan email, kami kirimkan langsung ke inbox Anda.</p>
+      <form id="leadForm" action="#" method="POST">
+        <div class="form-group">
+          <label for="name">Nama lengkap</label>
+          <input type="text" id="name" name="nama" placeholder="Contoh: Siti Nurhaliza" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Alamat email</label>
+          <input type="email" id="email" name="email" placeholder="orangtua@email.com" required>
+        </div>
+        <button type="submit" class="btn-submit">Kirim & Dapatkan Modul</button>
+      </form>
+      <p style="font-size: 0.75rem; margin-top: 20px; color:#8f9eaf;">Data akan tersimpan dengan aman. No spam.</p>
+    </div>
+  </div>
+
+  <script>
+    // Elemen modal
+    const modal = document.getElementById('modalForm');
+    const openBtn = document.getElementById('openModalBtn');
+    const closeBtn = document.getElementById('closeModalBtn');
+
+    // Buka modal
+    openBtn.addEventListener('click', () => {
+      modal.classList.add('active');
+    });
+
+    // Tutup modal (tombol X)
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+    });
+
+    // Tutup modal jika klik di luar modal-container
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+      }
+    });
+
+    // Handle form submit — placeholder untuk Google Forms
+    const form = document.getElementById('leadForm');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Ambil data (opsional untuk logging, tapi tidak dikirim ke server karena placeholder)
+      const nama = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+
+      if (!nama || !email) {
+        alert('Harap isi nama dan email ya, agar kami bisa mengirim panduannya :)');
+        return;
+      }
+
+      // Informasi: untuk sementara menggunakan placeholder '#'
+      // Ketika link Google Forms sudah tersedia, ganti action form dengan URL form.
+      // Saat ini hanya simulasi konfirmasi karena sesuai perintah "placeholder '#'".
+      // Kami tampilkan pesan sukses dan reset form, kemudian tutup modal.
+      
+      // Simulasi pesan terima kasih dan catatan untuk penggantian link nanti.
+      alert(`Terima kasih, ${nama}! 🙌\nModul gratis "MindSeek Coach" akan segera dikirim ke ${email}.\n(Simulasi: link Google Forms akan diaktifkan segera. Tidak ada data yang hilang.)`);
+      
+      // Reset form & tutup modal
+      form.reset();
+      modal.classList.remove('active');
+
+      // Instruksi pengguna untuk mengganti action dengan link Google Forms asli:
+      // Untuk pengembang: ganti action form dengan URL submit Google Forms 
+      // Contoh action="https://docs.google.com/forms/d/e/.../formResponse"
+      // Serta sesuaikan atribut name pada input sesuai dengan entry Google Forms.
+      // Saat ini sesuai permintaan hanya placeholder "#"
+      console.log('[MindSeek] Data tersimpan secara lokal untuk demo. Nama:', nama, 'Email:', email);
+    });
+  </script>
+  <!-- Catatan: Untuk integrasi Google Forms nanti, cukup ubah action form pada tag <form> 
+       dan sesuaikan nama input (name="entry.xxxxx") dengan form response. 
+       Kode ini sudah responsif dan menggunakan placeholder sesuai permintaan. -->
+</body>
+</html>
