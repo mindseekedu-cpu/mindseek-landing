@@ -52,8 +52,8 @@
       <h1>Ubah Stres Jadi <span>Momen Emas.</span><br>Cukup 15 Menit Sehari.</h1>
       <p class="subhead">Dapatkan panduan mingguan untuk membangun rutinitas belajar anti-frustrasi bersama anak SD Anda, bahkan di tengah kesibukan.</p>
       <div class="form-card">
+        <!-- HAPUS input _next karena tidak bekerja di free plan -->
         <form id="leadForm" action="https://formspree.io/f/mrejayop" method="POST">
-          <input type="hidden" name="_next" value="https://mindseek-landing.vercel.app/modul.html">
           <input type="hidden" name="_subject" value="Permintaan 3 Modul MindSeek Coach">
          
           <div class="form-group">
@@ -65,7 +65,7 @@
             <input type="email" id="email" name="email" placeholder="email@contoh.com" required>
           </div>
           <button type="submit" class="btn-submit">📘 Kirim & Dapatkan 3 Modul Gratis</button>
-          <div id="formSuccessMessage" class="form-success">✅ Terima kasih! Cek email Anda untuk panduannya.</div>
+          <div id="formSuccessMessage" class="form-success"></div>
         </form>
       </div>
     </div>
@@ -104,12 +104,52 @@
   <script>
     const form = document.getElementById('leadForm');
     const successDiv = document.getElementById('formSuccessMessage');
-    form.addEventListener('submit', function() {
-      successDiv.style.display = 'block';
-      setTimeout(() => {
-        form.reset();
-        successDiv.style.display = 'none';
-      }, 4000);
+    const submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault(); // Mencegah pengiriman standar
+
+      // Nonaktifkan tombol agar tidak bisa di klik dua kali
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Mengirim...';
+
+      // Kumpulkan data dari form
+      const formData = new FormData(form);
+      
+      try {
+        // Kirim ke Formspree
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
+
+        if (response.ok) {
+          // Tampilkan pesan sukses
+          successDiv.style.display = 'block';
+          successDiv.textContent = '✅ Terima kasih! Mengarahkan ke halaman modul...';
+          
+          // Redirect ke halaman modul setelah 1 detik (biar pesan terbaca)
+          setTimeout(() => {
+            window.location.href = 'https://mindseek-landing.vercel.app/modul.html';
+          }, 1000);
+        } else {
+          // Formspree mengembalikan error (misal spam protection)
+          const errorData = await response.json();
+          successDiv.style.display = 'block';
+          successDiv.textContent = '❌ ' + (errorData.error || 'Terjadi kesalahan. Silakan coba lagi.');
+          submitBtn.disabled = false;
+          submitBtn.textContent = '📘 Kirim & Dapatkan 3 Modul Gratis';
+        }
+      } catch (error) {
+        // Error jaringan atau lainnya
+        successDiv.style.display = 'block';
+        successDiv.textContent = '❌ Gagal terhubung. Periksa koneksi internet Anda.';
+        submitBtn.disabled = false;
+        submitBtn.textContent = '📘 Kirim & Dapatkan 3 Modul Gratis';
+      }
     });
   </script>
 </body>
