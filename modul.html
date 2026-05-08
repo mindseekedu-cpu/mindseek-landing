@@ -5,17 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>3 Modul MindSeek Coach – Rutinitas Belajar 15 Menit</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Library html2pdf.js untuk konversi ke PDF -->
+  <!-- Library html2pdf.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Poppins', sans-serif; background: #F5F7FA; color: #1F2A3A; line-height: 1.6; padding: 24px 16px 48px; }
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      background: #F5F7FA; 
+      color: #1F2A3A; 
+      line-height: 1.6; 
+      padding: 24px 16px 48px; 
+    }
     .container { max-width: 800px; margin: 0 auto; }
     .header { text-align: center; margin-bottom: 32px; }
     .header h1 { font-size: 1.8rem; color: #4A90E2; margin-bottom: 8px; }
     .header p { color: #4a5b6e; }
     
-    /* Tombol download PDF */
+    /* Tombol download */
     .download-btn-container { text-align: center; margin-bottom: 30px; }
     .download-pdf-btn {
       background-color: #4A90E2;
@@ -38,23 +44,53 @@
       transform: translateY(-2px);
     }
     
-    /* Area konten yang akan dijadikan PDF */
+    /* Area konten PDF */
     .pdf-content {
       background: transparent;
     }
     
-    .modul { background: white; border-radius: 24px; padding: 28px; margin-bottom: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); border-left: 5px solid #4A90E2; }
+    /* SETIAP MODUL DIMULAI DI HALAMAN BARU PADA PDF */
+    .modul {
+      background: white;
+      border-radius: 24px;
+      padding: 28px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      border-left: 5px solid #4A90E2;
+      page-break-after: always; /* pindah halaman setelah setiap modul */
+      break-inside: avoid; /* hindari potong di tengah modul */
+    }
+    /* Modul terakhir tidak perlu page break setelahnya */
+    .modul:last-child {
+      page-break-after: auto;
+    }
+    
     .modul h2 { font-size: 1.4rem; margin-bottom: 8px; color: #1F2A3A; }
     .modul .badge { font-size: 0.7rem; color: #4A90E2; font-weight: 600; text-transform: uppercase; margin-bottom: 12px; }
     .modul p { margin-bottom: 16px; color: #2d3748; }
     .action-box { background: #EBF4FF; border-radius: 16px; padding: 20px; margin-top: 24px; }
     .action-box h3 { font-size: 1.1rem; margin-bottom: 12px; color: #1F2A3A; }
     .afirmasi { font-style: italic; background: #E8F5E9; padding: 16px; border-radius: 16px; margin-top: 24px; color: #2E7D32; }
-    .footer { text-align: center; margin-top: 40px; font-size: 0.8rem; color: #718096; }
+    
+    /* Footer tidak ikut page break berlebihan */
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.8rem;
+      color: #718096;
+      page-break-before: avoid;
+    }
     
     @media (max-width: 600px) {
       .modul { padding: 20px; }
       .header h1 { font-size: 1.5rem; }
+    }
+    
+    /* Untuk tampilan cetak/PDF di browser */
+    @media print {
+      body { background: white; padding: 0; }
+      .download-btn-container { display: none; }
+      .modul { page-break-after: always; break-inside: avoid; }
     }
   </style>
 </head>
@@ -68,13 +104,13 @@
   <!-- Tombol Unduh PDF -->
   <div class="download-btn-container">
     <button class="download-pdf-btn" id="downloadPDFBtn">
-      📥 Unduh 3 Modul sebagai PDF (Gratis)
+      📥 Unduh 3 Modul sebagai PDF (Rapi per halaman)
     </button>
   </div>
 
-  <!-- Area konten yang akan diekspor ke PDF -->
+  <!-- Area konten yang akan diekspor -->
   <div class="pdf-content" id="pdfContent">
-    <!-- Modul 1 -->
+    <!-- MODUL 1 -->
     <div class="modul">
       <div class="badge">Modul 1 • 5 menit</div>
       <h2>Hentikan Drama "Ntar Lagi" dalam 5 Menit</h2>
@@ -89,7 +125,7 @@
       </div>
     </div>
 
-    <!-- Modul 2 -->
+    <!-- MODUL 2 -->
     <div class="modul">
       <div class="badge">Modul 2 • 5 menit</div>
       <h2>Jangan Cuma Bilang "Pintar", Coba Ini</h2>
@@ -104,7 +140,7 @@
       </div>
     </div>
 
-    <!-- Modul 3 -->
+    <!-- MODUL 3 -->
     <div class="modul">
       <div class="badge">Modul 3 • 5 menit</div>
       <h2>15 Menit Emas Setelah Pulang Sekolah, Anak Langsung Fokus</h2>
@@ -119,6 +155,7 @@
       </div>
     </div>
 
+    <!-- FOOTER -->
     <div class="footer">
       <p>© 2026 MindSeek. Dibuat untuk orang tua hebat.</p>
       <p>✨ Terapkan satu tindakan hari ini. Konsistensi > durasi.</p>
@@ -126,19 +163,18 @@
   </div> <!-- penutup pdfContent -->
 </div> <!-- penutup container -->
 
-<!-- Script untuk mengunduh PDF -->
 <script>
   document.getElementById('downloadPDFBtn').addEventListener('click', function() {
     const element = document.getElementById('pdfContent');
-    // Opsi konfigurasi PDF
+    // Opsi dengan pagebreak CSS aktif
     const opt = {
-      margin:        [0.5, 0.5, 0.5, 0.5], // [top, right, bottom, left] inci
-      filename:     'MindSeek_Coach_3_Modul.pdf',
-      image:        { type: 'jpeg', quality: 0.98 },
-      html2canvas:  { scale: 2, letterRendering: true, useCORS: true, logging: false },
-      jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }
+      margin: [0.5, 0.5, 0.5, 0.5], // [top, right, bottom, left] inci
+      filename: 'MindSeek_Coach_3_Modul_Rapi.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, letterRendering: true, useCORS: true, logging: false },
+      jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' },
+      pagebreak: { mode: 'css' } // AKTIFKAN PAGE BREAK BERDASARKAN CSS
     };
-    // Panggil library html2pdf untuk mengunduh
     html2pdf().set(opt).from(element).save();
   });
 </script>
